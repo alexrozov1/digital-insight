@@ -1,0 +1,57 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout title="Digital Insight — Digital analytics, clearly" description="News that matters, cases from real work, and useful resources.">
+  <section class="container mx-auto px-4 md:px-6 lg:px-8 py-12">
+    <div class="grid lg:grid-cols-2 gap-8 items-center">
+      <div>
+        <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight">Digital Analytics, explained clearly.</h1>
+        <p class="mt-4 text-zinc-600 dark:text-zinc-300 max-w-2xl">
+          News that matters, cases from real work, and useful resources — without the fluff.
+        </p>
+        <div class="mt-6 flex items-center gap-3">
+          <a href="/news" class="rounded-2xl px-4 py-2 text-sm font-medium shadow-sm hover:shadow bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900">Read latest</a>
+          <a href="/guides" class="text-sm font-medium underline underline-offset-4">Explore guides</a>
+        </div>
+      </div>
+      <div class="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white/80 dark:bg-zinc-900/70 shadow-sm p-5">
+        <div class="aspect-video w-full overflow-hidden rounded-xl bg-gradient-to-br from-violet-500/20 to-cyan-500/20 ring-1 ring-inset ring-zinc-200 dark:ring-zinc-800 flex items-center justify-center">
+          <span class="text-sm text-zinc-600 dark:text-zinc-300">OG image / cover preview</span>
+        </div>
+        <div class="mt-4 grid sm:grid-cols-2 gap-4">
+          <article class="rounded-2xl border border-zinc-200 dark:border-zinc-800 p-4">
+            <h3 class="font-semibold leading-snug">Fixing double-counted pageviews in GA4</h3>
+            <p class="text-sm text-zinc-600 dark:text-zinc-300 mt-1">Duplicate triggers & SPA routing: a reliable fix.</p>
+          </article>
+          <article class="rounded-2xl border border-zinc-200 dark:border-zinc-800 p-4">
+            <h3 class="font-semibold leading-snug">Consent Mode v2: rollout checklist</h3>
+            <p class="text-sm text-zinc-600 dark:text-zinc-300 mt-1">From CMP mapping to server-side tagging.</p>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="container mx-auto px-4 md:px-6 lg:px-8 py-10" id="news">
+    <div class="flex items-center gap-3 mb-6">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight">This week in analytics</h2>
+    </div>
+    <div class="grid lg:grid-cols-3 gap-4">
+      <article class="rounded-2xl border border-zinc-200 dark:border-zinc-800 p-5">
+        <div class="text-xs uppercase tracking-wide text-zinc-500">Official Blog</div>
+        <h3 class="mt-2 font-semibold leading-snug">GA4 adds new attribution settings</h3>
+        <p class="text-sm text-zinc-600 dark:text-zinc-300 mt-2">Test model changes if you rely on ROAS comparisons.</p>
+      </article>
+      <article class="rounded-2xl border border-zinc-200 dark:border-zinc-800 p-5">
+        <div class="text-xs uppercase tracking-wide text-zinc-500">EU DPA</div>
+        <h3 class="mt-2 font-semibold leading-snug">CNIL guidance update on measurement</h3>
+        <p class="text-sm text-zinc-600 dark:text-zinc-300 mt-2">Check lawful basis notes for first‑party analytics.</p>
+      </article>
+      <article class="rounded-2xl border border-zinc-200 dark:border-zinc-800 p-5">
+        <div class="text-xs uppercase tracking-wide text-zinc-500">AdTech</div>
+        <h3 class="mt-2 font-semibold leading-snug">Click spam patterns rise</h3>
+        <p class="text-sm text-zinc-600 dark:text-zinc-300 mt-2">Correlate install‑to‑first_open latency and fast uninstalls.</p>
+      </article>
+    </div>
+  </section>
+</BaseLayout>
