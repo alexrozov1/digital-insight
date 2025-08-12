@@ -3,13 +3,12 @@
   "version": "0.2.0",
   "private": true,
   "type": "module",
-  "scripts": {
-    "dev": "astro dev",
-    "build": "astro build && npm run postbuild",
-    "postbuild": "npx pagefind --site dist "postbuild": "npx pagefind --site dist""postbuild": "npx pagefind --site dist" cp _worker.js dist/_worker.js",
-    "preview": "astro preview",
-    "format": "prettier --write ."
-  },
+"scripts": {
+  "dev": "astro dev",
+  "build": "astro build && npm run postbuild",
+  "postbuild": "npx pagefind --site dist && cp _worker.js dist/_worker.js",
+  "preview": "astro preview"
+},
   "dependencies": {
     "astro": "^4.10.0",
     "@astrojs/tailwind": "^5.1.0",
