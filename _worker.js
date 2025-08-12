@@ -10,7 +10,7 @@ export default {
 
       const arr = new Uint8Array(16); crypto.getRandomValues(arr);
       const state = Array.from(arr).map(b => b.toString(16).padStart(2,"0")).join("");
-      const scopes = "public_repo,user:email"; // use "repo,user:email" if the repo is private
+      const scopes = "public_repo,user:email"; // use "repo,user:email" if repo is private
 
       const gh = new URL("https://github.com/login/oauth/authorize");
       gh.searchParams.set("client_id", CLIENT_ID);
@@ -24,7 +24,7 @@ export default {
       return new Response(null, { status: 302, headers });
     }
 
-    // /api/callback → exchange code and close popup
+    // /api/callback → exchange code and notify Decap
     if (url.pathname === "/api/callback") {
       const code = url.searchParams.get("code");
       const state = url.searchParams.get("state");
@@ -45,8 +45,10 @@ export default {
       const tokenData = await tokenRes.json();
       if (!tokenData.access_token) return new Response("Failed to get access token", { status: 500 });
 
+      // IMPORTANT: include provider:"github" so Decap accepts it
+      const payload = JSON.stringify({ token: tokenData.access_token, provider: "github" });
       const html = '<!doctype html><meta charset="utf-8"><script>'
-        + '(function(){var msg="authorization:github:"+JSON.stringify({token:"' + tokenData.access_token + '"});'
+        + '(function(){var msg="authorization:github:' + payload.replace(/</g,"\\u003c") + '";'
         + 'if(window.opener){window.opener.postMessage(msg,"*");} window.close();})();'
         + '</script>';
 
