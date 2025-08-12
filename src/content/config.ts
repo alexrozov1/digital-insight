@@ -2,7 +2,6 @@ import { z, defineCollection } from 'astro:content';
 
 const baseFields = {
   title: z.string(),
-  slug: z.string().optional(),
   excerpt: z.string().max(200).optional(),
   publishDate: z.string().or(z.date()),
   updatedDate: z.string().or(z.date()).optional(),
