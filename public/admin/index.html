@@ -3,18 +3,21 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Digital Insight Admin</title>
-    <!-- Decap CMS -->
-    <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
-    <style>
-      body { font-family: system-ui, sans-serif; }
-      .debug { position:fixed; top:10px; right:10px; font-size:12px; }
-      .debug a { padding:6px 10px; border:1px solid #ccc; border-radius:8px; text-decoration:none; color:#333;}
-    </style>
+    <title>Digital Insight — Admin</title>
   </head>
   <body>
-    <!-- Debug link to start OAuth directly if needed -->
-    <div class="debug"><a href="/api/auth">Debug: Start GitHub Login</a></div>
-    <!-- When config.yml exists at /admin/config.yml, Decap will auto-load it. -->
+    <!-- Mount point Decap expects -->
+    <div id="nc-root"></div>
+
+    <!-- Optional debug: start OAuth if needed -->
+    <a href="/api/auth" style="position:fixed;top:10px;right:10px;padding:6px 10px;border:1px solid #ccc;border-radius:8px;font:12px system-ui;text-decoration:none;color:#333">Debug: Start GitHub Login</a>
+
+    <!-- Manual init so we control config path -->
+    <script>window.CMS_MANUAL_INIT = true;</script>
+    <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+    <script>
+      // Point CMS to your YAML config (now served at /admin/config.yml)
+      window.CMS.init({ configPath: "/admin/config.yml" });
+    </script>
   </body>
 </html>
