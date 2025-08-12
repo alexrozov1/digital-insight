@@ -1,0 +1,51 @@
+backend:
+  name: github
+  repo: alexrozov1/digital-insight
+  branch: main
+  base_url: https://digital-insight.pages.dev
+  auth_endpoint: /api/auth
+
+media_folder: public/uploads
+public_folder: /uploads
+
+collections:
+  - name: news
+    label: News
+    folder: src/content/news
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: Title, name: title, widget: string }
+      - { label: Date, name: date, widget: datetime }
+      - { label: Excerpt, name: excerpt, widget: text, required: false }
+      - { label: Body, name: body, widget: markdown }
+
+  - name: cases
+    label: Cases
+    folder: src/content/cases
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: Title, name: title, widget: string }
+      - { label: Date, name: date, widget: datetime }
+      - { label: Body, name: body, widget: markdown }
+
+  - name: guides
+    label: Guides
+    folder: src/content/guides
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: Title, name: title, widget: string }
+      - { label: Date, name: date, widget: datetime }
+      - { label: Body, name: body, widget: markdown }
+
+  - name: resources
+    label: Resources
+    folder: src/content/resources
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: Title, name: title, widget: string }
+      - { label: Date, name: date, widget: datetime }
+      - { label: Body, name: body, widget: markdown }

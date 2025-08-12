@@ -2,75 +2,19 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Digital Insight Admin</title>
+    <!-- Decap CMS -->
     <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+    <style>
+      body { font-family: system-ui, sans-serif; }
+      .debug { position:fixed; top:10px; right:10px; font-size:12px; }
+      .debug a { padding:6px 10px; border:1px solid #ccc; border-radius:8px; text-decoration:none; color:#333;}
+    </style>
   </head>
   <body>
-    <script>
-      window.CMS.init({
-        config: {
-          backend: {
-            name: "github",
-            repo: "alexrozov1/digital-insight", // your GitHub repo
-            branch: "main",                    // branch to commit to
-            base_url: "https://digital-insight.pages.dev", // your site
-            auth_endpoint: "/api/auth"         // Cloudflare Pages Function we made
-          },
-          media_folder: "public/uploads",      // folder in repo for uploaded files
-          public_folder: "/uploads",           // public path for images
-          collections: [
-            {
-              name: "news",
-              label: "News",
-              folder: "src/content/news",
-              create: true,
-              slug: "{{slug}}",
-              fields: [
-                { label: "Title", name: "title", widget: "string" },
-                { label: "Date", name: "date", widget: "datetime" },
-                { label: "Body", name: "body", widget: "markdown" }
-              ]
-            },
-            {
-              name: "cases",
-              label: "Cases",
-              folder: "src/content/cases",
-              create: true,
-              slug: "{{slug}}",
-              fields: [
-                { label: "Title", name: "title", widget: "string" },
-                { label: "Date", name: "date", widget: "datetime" },
-                { label: "Body", name: "body", widget: "markdown" }
-              ]
-            },
-            {
-              name: "guides",
-              label: "Guides",
-              folder: "src/content/guides",
-              create: true,
-              slug: "{{slug}}",
-              fields: [
-                { label: "Title", name: "title", widget: "string" },
-                { label: "Date", name: "date", widget: "datetime" },
-                { label: "Body", name: "body", widget: "markdown" }
-              ]
-            },
-            {
-              name: "resources",
-              label: "Resources",
-              folder: "src/content/resources",
-              create: true,
-              slug: "{{slug}}",
-              fields: [
-                { label: "Title", name: "title", widget: "string" },
-                { label: "Date", name: "date", widget: "datetime" },
-                { label: "Body", name: "body", widget: "markdown" }
-              ]
-            }
-          ]
-        }
-      });
-    </script>
+    <!-- Debug link to start OAuth directly if needed -->
+    <div class="debug"><a href="/api/auth">Debug: Start GitHub Login</a></div>
+    <!-- When config.yml exists at /admin/config.yml, Decap will auto-load it. -->
   </body>
 </html>
