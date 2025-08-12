@@ -1,38 +1,21 @@
-# Digital Insight (Astro + Tailwind)
-
-A minimal, content-first site for digital analytics: news, cases, guides, and resources.
+# Digital Insight (Pro) — Astro + Tailwind + Decap CMS + RSS + Sitemap + Pagefind + Giscus
 
 ## Quick start
 
-1) Install deps
 ```bash
 npm i
-```
-
-2) Run dev server
-```bash
 npm run dev
 ```
 
-3) Build
-```bash
-npm run build
-```
+## Build & deploy (Cloudflare Pages)
+- Framework: **Astro**
+- Build command: `npm run build`
+- Output dir: `dist`
 
-4) Preview
-```bash
-npm run preview
-```
-
-## Deploy (Cloudflare Pages)
-
-Framework: **Astro**  
-Build command: `npm run build`  
-Output dir: `dist`
-
-## Customize
-
-- Edit layout in `src/layouts/BaseLayout.astro`
-- Landing page in `src/pages/index.astro`
-- Section pages in `src/pages/{news,cases,guides,resources}.astro`
-- Global styles in `src/styles/global.css`
+## Features
+- Content collections (`src/content/*`) with Zod schemas
+- Decap CMS at `/admin` (edit `public/admin/index.html` backend settings)
+- RSS at `/rss.xml`
+- Sitemap via `@astrojs/sitemap`
+- Search via Pagefind (UI at `/search`)
+- Giscus comments in post layout (configure repo in `PostLayout.astro`)

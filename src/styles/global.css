@@ -2,8 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  color-scheme: light dark;
-}
+:root { color-scheme: light dark; }
 .prose img { border-radius: 0.75rem; }
 .container { max-width: 1100px; }
+code, pre { font-size: 0.95em; }

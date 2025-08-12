@@ -1,0 +1,54 @@
+---
+import BaseLayout from './BaseLayout.astro';
+
+const { frontmatter } = Astro.props;
+const url = new URL(Astro.url);
+const title = frontmatter.seo?.title ?? frontmatter.title;
+const description = frontmatter.seo?.description ?? frontmatter.excerpt ?? "";
+const isoDate = new Date(frontmatter.publishDate).toISOString();
+const updated = frontmatter.updatedDate ? new Date(frontmatter.updatedDate).toISOString() : isoDate;
+---
+<BaseLayout title={title} description={description}>
+  <article class="container mx-auto px-4 md:px-6 lg:px-8 py-10 prose prose-zinc dark:prose-invert max-w-none">
+    <header class="mb-6">
+      <h1 class="mb-2">{frontmatter.title}</h1>
+      <p class="text-sm text-zinc-500">{new Date(frontmatter.publishDate).toDateString()}</p>
+      {frontmatter.tags && frontmatter.tags.length > 0 && (
+        <p class="mt-2 text-sm">{frontmatter.tags.map((t) => `#${t}`).join(' ')}</p>
+      )}
+    </header>
+    <slot />
+    <hr class="my-8 border-zinc-200 dark:border-zinc-800" />
+    <section id="comments" class="not-prose">
+      <!-- Configure your Giscus repo below -->
+      <script src="https://giscus.app/client.js"
+              data-repo="alexrozov1/digital-insight"
+              data-repo-id=""
+              data-category="General"
+              data-category-id=""
+              data-mapping="pathname"
+              data-strict="0"
+              data-reactions-enabled="1"
+              data-emit-metadata="0"
+              data-input-position="bottom"
+              data-theme="preferred_color_scheme"
+              data-lang="en"
+              crossorigin="anonymous"
+              async>
+      </script>
+    </section>
+  </article>
+
+  <script type="application/ld+json">
+  {JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": title,
+    "datePublished": isoDate,
+    "dateModified": updated,
+    "author": [{"@type": "Person", "name": frontmatter.author || "Digital Insight"}],
+    "mainEntityOfPage": url.toString(),
+    "keywords": (frontmatter.tags || []).join(", ")
+  })}
+  </script>
+</BaseLayout>

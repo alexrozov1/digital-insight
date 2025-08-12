@@ -1,0 +1,67 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Digital Insight — Admin</title>
+    <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+  </head>
+  <body>
+    <script>
+      const config = {
+        backend: {
+          name: "github",          // change to "gitlab" if using GitLab
+          repo: "alexrozov1/digital-insight", // set to YOURUSER/digital-insight
+          branch: "main"
+        },
+        media_folder: "public/uploads",
+        public_folder: "/uploads",
+        collections: [
+          { name: "news", label: "News", folder: "src/content/news", create: true, slug: "{{slug}}",
+            fields: [
+              { label: "Title", name: "title", widget: "string" },
+              { label: "Excerpt", name: "excerpt", widget: "text" },
+              { label: "Publish Date", name: "publishDate", widget: "datetime" },
+              { label: "Tags", name: "tags", widget: "list", required: false },
+              { label: "Topics", name: "topics", widget: "list", required: false },
+              { label: "Body", name: "body", widget: "markdown" }
+            ]
+          },
+          { name: "cases", label: "Cases", folder: "src/content/cases", create: true, slug: "{{slug}}",
+            fields: [
+              { label: "Title", name: "title", widget: "string" },
+              { label: "Excerpt", name: "excerpt", widget: "text" },
+              { label: "Publish Date", name: "publishDate", widget: "datetime" },
+              { label: "Tags", name: "tags", widget: "list", required: false },
+              { label: "Topics", name: "topics", widget: "list", required: false },
+              { label: "Body", name: "body", widget: "markdown" }
+            ]
+          },
+          { name: "guides", label: "Guides", folder: "src/content/guides", create: true, slug: "{{slug}}",
+            fields: [
+              { label: "Title", name: "title", widget: "string" },
+              { label: "Excerpt", name: "excerpt", widget: "text" },
+              { label: "Publish Date", name: "publishDate", widget: "datetime" },
+              { label: "Read time", name: "read", widget: "string", required: false },
+              { label: "Tags", name: "tags", widget: "list", required: false },
+              { label: "Topics", name: "topics", widget: "list", required: false },
+              { label: "Body", name: "body", widget: "markdown" }
+            ]
+          },
+          { name: "resources", label: "Resources", folder: "src/content/resources", create: true, slug: "{{slug}}",
+            fields: [
+              { label: "Title", name: "title", widget: "string" },
+              { label: "Excerpt", name: "excerpt", widget: "text" },
+              { label: "Publish Date", name: "publishDate", widget: "datetime" },
+              { label: "Kind", name: "kind", widget: "string", required: false },
+              { label: "Tags", name: "tags", widget: "list", required: false },
+              { label: "Topics", name: "topics", widget: "list", required: false },
+              { label: "Body", name: "body", widget: "markdown" }
+            ]
+          }
+        ]
+      };
+      window.CMS.init({ config });
+    </script>
+  </body>
+</html>

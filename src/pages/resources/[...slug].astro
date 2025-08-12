@@ -1,0 +1,11 @@
+---
+import PostLayout from '../../layouts/PostLayout.astro';
+import { getCollection } from 'astro:content';
+const { slug } = Astro.params;
+const [entry] = (await getCollection('resources')).filter((p) => p.slug === slug);
+if (!entry) throw new Error('Post not found');
+const { Content } = await entry.render();
+---
+<PostLayout frontmatter={entry.data}>
+  <Content />
+</PostLayout>

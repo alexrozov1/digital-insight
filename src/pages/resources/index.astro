@@ -1,0 +1,21 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+const items = await getCollection('resources');
+---
+<BaseLayout title="Digital Insight — Resources">
+  <section class="container mx-auto px-4 md:px-6 lg:px-8 py-12">
+    <h1 class="text-3xl md:text-4xl font-bold tracking-tight">Resources</h1>
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
+      {items.map((p) => (
+        <a href={`/resources/${p.slug}/`} class="rounded-2xl border border-zinc-200 dark:border-zinc-800 p-5 block hover:shadow">
+          <div class="flex items-center justify-between">
+            <h3 class="font-semibold leading-snug">{p.data.title}</h3>
+            <span class="text-xs border rounded-full px-2 py-0.5">{p.data.kind}</span>
+          </div>
+          <p class="text-sm text-zinc-600 dark:text-zinc-300 mt-2">{p.data.excerpt}</p>
+        </a>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

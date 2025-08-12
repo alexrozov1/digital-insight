@@ -1,0 +1,18 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout title="Search — Digital Insight">
+  <section class="container mx-auto px-4 md:px-6 lg:px-8 py-12">
+    <h1 class="text-3xl md:text-4xl font-bold tracking-tight mb-4">Search</h1>
+    <div id="search" class="max-w-2xl"></div>
+  </section>
+  <script type="module">
+    import "/pagefind/pagefind-ui.js";
+    new PagefindUI({
+      element: "#search",
+      showImages: false,
+      showSubResults: true,
+      translations: { placeholder: "Search posts..." }
+    });
+  </script>
+</BaseLayout>
