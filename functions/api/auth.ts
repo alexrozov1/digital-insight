@@ -11,7 +11,7 @@ export async function onRequestGet({ env }: any) {
     .reduce((s, b) => s + b.toString(16).padStart(2, "0"), "");
 
   // Public repo scope is usually enough; use "repo" if your repo is private
-  const scopes = "public_repo,user:email";
+  const scopes = "repo,user:email";
 
   const url = new URL("https://github.com/login/oauth/authorize");
   url.searchParams.set("client_id", CLIENT_ID);
