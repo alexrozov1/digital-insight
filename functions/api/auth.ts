@@ -6,9 +6,12 @@ export async function onRequestGet({ env }: any) {
     return new Response("Missing GITHUB_CLIENT_ID", { status: 500 });
   }
 
-  // Generate a CSRF state and set it in a cookie
-  const state = crypto.getRandomValues(new Uint8Array(16)).reduce((s, b) => s + b.toString(16).padStart(2, "0"), "");
-  const scopes = "repo,user:email"; // public repos: use "public_repo,user:email" if you prefer
+  // CSRF state cookie
+  const state = crypto.getRandomValues(new Uint8Array(16))
+    .reduce((s, b) => s + b.toString(16).padStart(2, "0"), "");
+
+  // Public repo scope is usually enough; use "repo" if your repo is private
+  const scopes = "public_repo,user:email";
 
   const url = new URL("https://github.com/login/oauth/authorize");
   url.searchParams.set("client_id", CLIENT_ID);
@@ -17,8 +20,12 @@ export async function onRequestGet({ env }: any) {
   url.searchParams.set("state", state);
 
   const headers = new Headers({
-    "Set-Cookie": \`decap_state=\${state}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=600\`,
+    // avoid template literals; concat a plain string
+    "Set-Cookie": "decap_state=" + state + "; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=600",
   });
 
-  return Response.redirect(url.toString(), 302, { headers });
+  return new Response(null, { status: 302, headers: new Headers([
+    ...headers,
+    ["Location", url.toString()]
+  ])});
 }
