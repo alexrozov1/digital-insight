@@ -1,0 +1,13 @@
+# Dependencies & builds
+node_modules/
+dist/
+pagefind/
+.pagefind/
+
+# Env & logs
+.env
+*.log
+
+# OS / editor junk
+.DS_Store
+*.swp
