@@ -1,4 +1,4 @@
-export async function onRequestGet({ env }: any) {
+export const onRequestGet = async ({ env }) => {
   const CLIENT_ID = env.GITHUB_CLIENT_ID;
   const REDIRECT = env.OAUTH_REDIRECT_URL || "https://digital-insight.pages.dev/api/callback";
   if (!CLIENT_ID) return new Response("Missing GITHUB_CLIENT_ID", { status: 500 });
@@ -8,7 +8,7 @@ export async function onRequestGet({ env }: any) {
   crypto.getRandomValues(arr);
   const state = Array.from(arr).map(b => b.toString(16).padStart(2, "0")).join("");
 
-  // Scopes: use "repo" if your repo is private; "public_repo" for public only
+  // Scopes: use "repo" if the repo is private; "public_repo" for public
   const scopes = "public_repo,user:email";
 
   const url = new URL("https://github.com/login/oauth/authorize");
@@ -22,4 +22,4 @@ export async function onRequestGet({ env }: any) {
   headers.set("Location", url.toString());
 
   return new Response(null, { status: 302, headers });
-}
+};
