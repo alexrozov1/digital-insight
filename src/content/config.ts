@@ -17,9 +17,16 @@ const baseFields = {
   }).optional()
 };
 
-const news = defineCollection({ type: 'content', schema: z.object({
-  ...baseFields,
-  type: z.literal('news').default('news')
+const news = defineCollection({ type: 'content', schema: z.object({ 
+  title: z.string(),
+  date: z.string().optional(),
+  publishDate: z.string().optional(),
+  excerpt: z.string().optional(),
+  tags: z.array(z.string()).optional(),
+  topics: z.array(z.string()).optional(),
+  type: z.string().optional(),
+  seo: z.any().optional()
+}).default('news')
 })});
 
 const cases = defineCollection({ type: 'content', schema: z.object({
