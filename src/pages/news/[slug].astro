@@ -4,21 +4,39 @@ import { getCollection } from "astro:content";
 
 export async function getStaticPaths() {
   const items = await getCollection("news");
-  return items.map((entry) => ({
-    params: { slug: entry.slug },
-    props: { entry },
-  }));
+  return items.map((entry) => ({ params: { slug: entry.slug }, props: { entry } }));
 }
 
 const { entry } = Astro.props;
 const { Content } = await entry.render();
 const d = entry.data.date ?? entry.data.publishDate ?? null;
-const displayDate = d ? new Date(d).toISOString().slice(0,10) : null;
+const displayDate = d ? new Date(d).toLocaleDateString() : null;
 ---
-<PostLayout title={entry.data.title} date={displayDate}>
-  <article class="prose dark:prose-invert max-w-3xl mx-auto">
-    <h1>{entry.data.title}</h1>
-    {displayDate && <p class="opacity-70">{displayDate}</p>}
-    <Content />
+
+<PostLayout title={entry.data.title} description={entry.data.excerpt} date={displayDate}>
+  <article class="container mx-auto px-4 md:px-6 lg:px-8 py-10 max-w-3xl">
+    <header class="mb-6">
+      {displayDate && <time class="text-xs uppercase tracking-wide text-zinc-500 dark:text-zinc-400">{displayDate}</time>}
+      <h1 class="mt-1 text-3xl sm:text-4xl font-bold tracking-tight">{entry.data.title}</h1>
+      {entry.data.excerpt && <p class="mt-2 text-zinc-600 dark:text-zinc-300">{entry.data.excerpt}</p>}
+      {entry.data.tags?.length > 0 && (
+        <ul class="mt-3 flex flex-wrap gap-1.5">
+          {entry.data.tags.map(t => <li class="px-2 py-0.5 text-xs rounded bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300">{t}</li>)}
+        </ul>
+      )}
+    </header>
+
+    {entry.data.cover && (
+      <img src={entry.data.cover} alt="" class="rounded-lg border border-zinc-200 dark:border-zinc-800 mb-8 aspect-[16/9] w-full object-cover" loading="lazy" />
+    )}
+
+    <div class="prose prose-zinc dark:prose-invert max-w-none">
+      <Content />
+    </div>
+
+    <footer class="mt-10 flex items-center justify-between text-sm text-zinc-500 dark:text-zinc-400">
+      <a href="/news/" class="hover:underline">&larr; Back to News</a>
+      <a href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(entry.data.title)}&url=${encodeURIComponent(Astro.url.origin + '/news/' + entry.slug + '/')}`} target="_blank" rel="noopener" class="hover:underline">Share</a>
+    </footer>
   </article>
 </PostLayout>

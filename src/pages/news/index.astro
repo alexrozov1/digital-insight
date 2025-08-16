@@ -1,29 +1,35 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { getCollection } from "astro:content";
+import NewsCard from "../../components/NewsCard.astro";
+
 const entries = (await getCollection("news"))
   .map(e => ({ ...e, _d: e.data.date ?? e.data.publishDate ?? null }))
-  .sort((a,b) => {
-    const ad = a._d ? +new Date(a._d) : 0;
-    const bd = b._d ? +new Date(b._d) : 0;
-    return bd - ad;
-  });
+  .sort((a,b) => (b._d ? +new Date(b._d) : 0) - (a._d ? +new Date(a._d) : 0));
 ---
+
 <BaseLayout title="News">
-  <section class="prose dark:prose-invert max-w-3xl mx-auto">
-    <h1>News</h1>
+  <section class="container mx-auto px-4 md:px-6 lg:px-8 py-10">
+    <header class="mb-6 sm:mb-8">
+      <h1 class="text-3xl sm:text-4xl font-bold tracking-tight">News</h1>
+      <p class="mt-2 text-zinc-600 dark:text-zinc-300">Analytics, media buying, and tools—quick hits with actions.</p>
+    </header>
+
     {entries.length === 0 ? (
-      <p>No news yet.</p>
+      <p class="text-zinc-600 dark:text-zinc-300">No news yet.</p>
     ) : (
-      <ul>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
         {entries.map(({ slug, data, _d }) => (
-          <li>
-            <a href={`/news/${slug}/`} class="no-underline hover:underline">{data.title}</a>
-            <small class="block opacity-70">{_d ? new Date(_d).toLocaleDateString() : "No date"}</small>
-            {data.excerpt && <p>{data.excerpt}</p>}
-          </li>
+          <NewsCard
+            href={`/news/${slug}/`}
+            title={data.title}
+            date={_d}
+            excerpt={data.excerpt}
+            tags={data.tags}
+            cover={data.cover}
+          />
         ))}
-      </ul>
+      </div>
     )}
   </section>
 </BaseLayout>
