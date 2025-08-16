@@ -53,15 +53,3 @@ const updated = frontmatter.updatedDate ? new Date(frontmatter.updatedDate).toIS
   </script>
 </BaseLayout>
 
-<!-- theme-compat: listen for the existing #theme-toggle button as well -->
-<script is:inline>
-(function () {
-  var el = document.getElementById('theme-toggle');
-  if (!el) return;
-  el.addEventListener('click', function () {
-    var html = document.documentElement;
-    var isDark = html.classList.toggle('dark');
-    try { localStorage.setItem('theme', isDark ? 'dark' : 'light'); } catch (e) {}
-  }, { passive: true });
-})();
-</script>
