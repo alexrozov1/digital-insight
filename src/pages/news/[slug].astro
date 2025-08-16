@@ -1,10 +1,10 @@
 ---
-import PostLayout from '../../layouts/PostLayout.astro';
-import { getCollection } from 'astro:content';
+import PostLayout from "../../layouts/PostLayout.astro";
+import { getCollection } from "astro:content";
 
 export async function getStaticPaths() {
-  const posts = await getCollection('news');
-  return posts.map((entry) => ({
+  const items = await getCollection("news");
+  return items.map((entry) => ({
     params: { slug: entry.slug },
     props: { entry },
   }));
@@ -12,7 +12,13 @@ export async function getStaticPaths() {
 
 const { entry } = Astro.props;
 const { Content } = await entry.render();
+const d = entry.data.date ?? entry.data.publishDate ?? null;
+const displayDate = d ? new Date(d).toISOString().slice(0,10) : null;
 ---
-<PostLayout frontmatter={entry.data}>
-  <Content />
+<PostLayout title={entry.data.title} date={displayDate}>
+  <article class="prose dark:prose-invert max-w-3xl mx-auto">
+    <h1>{entry.data.title}</h1>
+    {displayDate && <p class="opacity-70">{displayDate}</p>}
+    <Content />
+  </article>
 </PostLayout>
