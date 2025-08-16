@@ -1,23 +1,18 @@
-import rss from '@astrojs/rss';
-import { getCollection } from 'astro:content';
+import rss from "@astrojs/rss";
+import { getCollection } from "astro:content";
 
 export async function GET(context) {
-  const all = [
-    ...(await getCollection('news')),
-    ...(await getCollection('cases')),
-    ...(await getCollection('guides')),
-    ...(await getCollection('resources'))
-  ].sort((a,b) => new Date(b.data.publishDate) - new Date(a.data.publishDate));
+  const news = await getCollection("news");
 
   return rss({
-    title: 'Digital Insight',
-    description: 'News, cases, and resources in digital analytics.',
+    title: "Digital Insight – News",
+    description: "Latest news and insights on analytics, media buying, and digital tools.",
     site: context.site,
-    items: all.map((p) => ({
-      title: p.data.title,
-      pubDate: new Date(p.data.publishDate),
-      description: p.data.excerpt,
-      link: `/${p.collection}/${p.slug}/`
-    }))
+    items: news.map((post) => ({
+      title: post.data.title,
+      description: post.data.excerpt || post.data.title,
+      pubDate: new Date(post.data.date || post.data.publishDate || Date.now()),
+      link: `/news/${post.slug}/`,
+    })),
   });
 }
