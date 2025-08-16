@@ -1,30 +1,44 @@
 <!doctype html>
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Digital Insight — Admin</title>
+    <style>
+      .debug { position:fixed; top:10px; right:10px; font:12px system-ui; }
+      .debug a { padding:6px 10px; border:1px solid #ccc; border-radius:8px; text-decoration:none; color:#333; }
+    </style>
   </head>
   <body>
-    <!-- Mount point Decap expects -->
     <div id="nc-root"></div>
+    <div class="debug"><a href="/api/auth">Debug: Start GitHub Login</a></div>
 
-    <!-- Optional debug: start OAuth if needed -->
-    <a href="/api/auth" style="position:fixed;top:10px;right:10px;padding:6px 10px;border:1px solid #ccc;border-radius:8px;font:12px system-ui;text-decoration:none;color:#333">Debug: Start GitHub Login</a>
-
-    <!-- Manual init so we control config path -->
+    <!-- Tell Decap we will initialize manually -->
     <script>window.CMS_MANUAL_INIT = true;</script>
-    <script src="https://unpkg.com/decap-cms@3.4.1"></script>
+
+    <!-- Pin to a stable Decap version -->
+    <script src="https://unpkg.com/decap-cms@3.4.1/dist/decap-cms.js" defer></script>
+
+    <!-- Wait until Decap is loaded, then init with our config -->
     <script>
-      // Point CMS to your YAML config (now served at /admin/config.yml)
-      window.CMS.init({ configPath: "/admin/config.yml" });
+      (function initWhenReady(){
+        if (window.CMS && typeof window.CMS.init === "function") {
+          window.CMS.init({ configPath: "/admin/config.yml" });
+          console.log("Decap CMS initialized");
+        } else {
+          setTimeout(initWhenReady, 50);
+        }
+      })();
+
+      // Debug: show when the admin tab receives the OAuth token
+      window.addEventListener('message', (e) => {
+        if (typeof e.data === 'string' && e.data.startsWith('authorization:github:')) {
+          console.log('Admin received auth message:', e.data.slice(22));
+        }
+        if (e.data && e.data.type === 'authorization:github') {
+          console.log('Admin received auth object:', e.data);
+        }
+      });
     </script>
   </body>
 </html>
-<script>
-  window.addEventListener('message', (e) => {
-    if (typeof e.data === 'string' && e.data.startsWith('authorization:github:')) {
-      console.log('Admin received auth message:', e.data.slice(22));
-    }
-  });
-</script>
