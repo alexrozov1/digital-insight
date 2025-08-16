@@ -3,6 +3,9 @@
 
 
 const { title = "Digital Insight", description = "" } = Astro.props;
+
+const gtmId = (site.gtmId || "").strip ? site.gtmId.strip() : (site.gtmId || "");
+const gaId = (site.gaId || "").strip ? site.gaId.strip() : (site.gaId || "");
 ---
 
 
