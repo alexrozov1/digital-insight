@@ -11,48 +11,48 @@ public_folder: "/uploads"
 collections:
   - name: "news"
     label: "News"
-    folder: "content/news"
+    folder: "src/content/news"
     create: true
     slug: "{{fields.slug}}"
     fields:
-      - { name: "title", label: "Title" }
-      - { name: "slug",  label: "Slug", widget: "string", hint: "Custom URL slug (leave empty to auto-generate)" }
-      - { name: "date",  label: "Date", widget: "datetime" }
-      - { name: "excerpt", label: "Excerpt", widget: "string", required: false }
-      - { name: "body",  label: "Body", widget: "markdown" }
+      - { name: "title",  label: "Title" }
+      - { name: "slug",   label: "Slug", widget: "string", hint: "Custom URL slug (leave empty to auto-generate)" }
+      - { name: "date",   label: "Date", widget: "datetime" }
+      - { name: "excerpt",label: "Excerpt", widget: "string", required: false }
+      - { name: "body",   label: "Body", widget: "markdown" }
 
   - name: "cases"
     label: "Cases"
-    folder: "content/cases"
+    folder: "src/content/cases"
     create: true
     slug: "{{fields.slug}}"
     fields:
-      - { name: "title", label: "Title" }
-      - { name: "slug",  label: "Slug", widget: "string", hint: "Custom URL slug (leave empty to auto-generate)" }
-      - { name: "date",  label: "Date", widget: "datetime" }
-      - { name: "excerpt", label: "Excerpt", widget: "string", required: false }
-      - { name: "body",  label: "Body", widget: "markdown" }
+      - { name: "title",  label: "Title" }
+      - { name: "slug",   label: "Slug", widget: "string", hint: "Custom URL slug (leave empty to auto-generate)" }
+      - { name: "date",   label: "Date", widget: "datetime" }
+      - { name: "excerpt",label: "Excerpt", widget: "string", required: false }
+      - { name: "body",   label: "Body", widget: "markdown" }
 
   - name: "guides"
     label: "Guides"
-    folder: "content/guides"
+    folder: "src/content/guides"
     create: true
     slug: "{{fields.slug}}"
     fields:
-      - { name: "title", label: "Title" }
-      - { name: "slug",  label: "Slug", widget: "string", hint: "Custom URL slug (leave empty to auto-generate)" }
-      - { name: "date",  label: "Date", widget: "datetime" }
-      - { name: "excerpt", label: "Excerpt", widget: "string", required: false }
-      - { name: "body",  label: "Body", widget: "markdown" }
+      - { name: "title",  label: "Title" }
+      - { name: "slug",   label: "Slug", widget: "string", hint: "Custom URL slug (leave empty to auto-generate)" }
+      - { name: "date",   label: "Date", widget: "datetime" }
+      - { name: "excerpt",label: "Excerpt", widget: "string", required: false }
+      - { name: "body",   label: "Body", widget: "markdown" }
 
   - name: "resources"
     label: "Resources"
-    folder: "content/resources"
+    folder: "src/content/resources"
     create: true
     slug: "{{fields.slug}}"
     fields:
-      - { name: "title", label: "Title" }
-      - { name: "slug",  label: "Slug", widget: "string", hint: "Custom URL slug (leave empty to auto-generate)" }
-      - { name: "date",  label: "Date", widget: "datetime" }
-      - { name: "excerpt", label: "Excerpt", widget: "string", required: false }
-      - { name: "body",  label: "Body", widget: "markdown" }
+      - { name: "title",  label: "Title" }
+      - { name: "slug",   label: "Slug", widget: "string", hint: "Custom URL slug (leave empty to auto-generate)" }
+      - { name: "date",   label: "Date", widget: "datetime" }
+      - { name: "excerpt",label: "Excerpt", widget: "string", required: false }
+      - { name: "body",   label: "Body", widget: "markdown" }
