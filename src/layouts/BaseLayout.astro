@@ -1,11 +1,5 @@
 ---
-const { title = "Digital Insight", description = "" } = Astro.props;
 
-const gtmId = (site.gtmId || "").strip ? site.gtmId.strip() : (site.gtmId || "");
-const gaId = (site.gaId || "").strip ? site.gaId.strip() : (site.gaId || "");
-import site from "../config/site.json";
-const gtmId = (site?.gtmId ?? "").toString().trim();
-const gaId = (site?.gaId ?? "").toString().trim();
 ---
 
 
