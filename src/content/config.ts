@@ -1,23 +1,11 @@
-import { z, defineCollection } from 'astro:content';
+import { defineCollection, z } from "astro:content";
 
+/**
+ * Common fields shared by all collections.
+ * - Accept either `date` or `publishDate` (both optional)
+ * - Optional `excerpt`, `tags`, `topics`, `type`, `seo`
+ */
 const baseFields = {
-  title: z.string(),
-  excerpt: z.string().max(200).optional(),
-  publishDate: z.string().or(z.date()),
-  updatedDate: z.string().or(z.date()).optional(),
-  author: z.string().default('Digital Insight'),
-  tags: z.array(z.string()).default([]),
-  topics: z.array(z.string()).default([]),
-  coverImage: z.string().optional(),
-  ogImage: z.string().optional(),
-  canonicalUrl: z.string().url().optional(),
-  seo: z.object({
-    title: z.string().optional(),
-    description: z.string().optional()
-  }).optional()
-};
-
-const news = defineCollection({ type: 'content', schema: z.object({ 
   title: z.string(),
   date: z.string().optional(),
   publishDate: z.string().optional(),
@@ -25,25 +13,27 @@ const news = defineCollection({ type: 'content', schema: z.object({
   tags: z.array(z.string()).optional(),
   topics: z.array(z.string()).optional(),
   type: z.string().optional(),
-  seo: z.any().optional()
-}).default('news')
-})});
+  seo: z.any().optional(),
+};
 
-const cases = defineCollection({ type: 'content', schema: z.object({
-  ...baseFields,
-  type: z.literal('case').default('case')
-})});
+const news = defineCollection({
+  type: "content",
+  schema: z.object(baseFields),
+});
 
-const guides = defineCollection({ type: 'content', schema: z.object({
-  ...baseFields,
-  type: z.literal('guide').default('guide'),
-  read: z.string().optional()
-})});
+const cases = defineCollection({
+  type: "content",
+  schema: z.object(baseFields),
+});
 
-const resources = defineCollection({ type: 'content', schema: z.object({
-  ...baseFields,
-  type: z.literal('resource').default('resource'),
-  kind: z.string().default('Template')
-})});
+const guides = defineCollection({
+  type: "content",
+  schema: z.object(baseFields),
+});
+
+const resources = defineCollection({
+  type: "content",
+  schema: z.object(baseFields),
+});
 
 export const collections = { news, cases, guides, resources };
