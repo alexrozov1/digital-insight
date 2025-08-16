@@ -42,3 +42,45 @@
     </script>
   </body>
 </html>
+
+<!-- OAuth receiver shim: write token to storage so Decap picks it up -->
+<script>
+(function () {
+  function saveAndReload(payload) {
+    try {
+      const token =
+        (payload && payload.token) ||
+        (payload && payload.auth && payload.auth.token);
+      if (!token) return;
+
+      // Write for both Decap & older Netlify CMS keys
+      localStorage.setItem(
+        "decap-cms-user",
+        JSON.stringify({ backendName: "github", token, provider: "github" })
+      );
+      localStorage.setItem(
+        "netlify-cms-user",
+        JSON.stringify({ token, provider: "github" })
+      );
+
+      console.log("Saved OAuth token. Reloading admin…");
+      location.replace("/admin/");
+    } catch (e) {
+      console.error("Receiver error:", e);
+    }
+  }
+
+  window.addEventListener("message", (e) => {
+    const d = e.data;
+    // String format: "authorization:github:{...}"
+    if (typeof d === "string" && d.startsWith("authorization:github:")) {
+      try { saveAndReload(JSON.parse(d.slice(22))); } catch (_) {}
+      return;
+    }
+    // Object format: { type: "authorization:github", token, provider }
+    if (d && (d.type === "authorization:github" || d.provider === "github")) {
+      saveAndReload(d);
+    }
+  });
+})();
+</script>
