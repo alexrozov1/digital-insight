@@ -1,7 +1,9 @@
 backend:
   name: github
-  repo: alexrozov/digital-insight
+  repo: alexrozov1/digital-insight
   branch: main
+  base_url: https://digital-insight.pages.dev
+  auth_endpoint: /api/auth
 
 media_folder: "public/uploads"
 public_folder: "/uploads"
@@ -14,10 +16,10 @@ collections:
     slug: "{{fields.slug}}"
     fields:
       - { name: "title", label: "Title" }
-      - { name: "slug", label: "Slug", widget: "string", hint: "Custom URL slug (leave empty to auto-generate)" }
-      - { name: "date", label: "Date", widget: "datetime" }
+      - { name: "slug",  label: "Slug", widget: "string", hint: "Custom URL slug (leave empty to auto-generate)" }
+      - { name: "date",  label: "Date", widget: "datetime" }
       - { name: "excerpt", label: "Excerpt", widget: "string", required: false }
-      - { name: "body", label: "Body", widget: "markdown" }
+      - { name: "body",  label: "Body", widget: "markdown" }
 
   - name: "cases"
     label: "Cases"
@@ -26,10 +28,10 @@ collections:
     slug: "{{fields.slug}}"
     fields:
       - { name: "title", label: "Title" }
-      - { name: "slug", label: "Slug", widget: "string", hint: "Custom URL slug (leave empty to auto-generate)" }
-      - { name: "date", label: "Date", widget: "datetime" }
+      - { name: "slug",  label: "Slug", widget: "string", hint: "Custom URL slug (leave empty to auto-generate)" }
+      - { name: "date",  label: "Date", widget: "datetime" }
       - { name: "excerpt", label: "Excerpt", widget: "string", required: false }
-      - { name: "body", label: "Body", widget: "markdown" }
+      - { name: "body",  label: "Body", widget: "markdown" }
 
   - name: "guides"
     label: "Guides"
@@ -38,10 +40,10 @@ collections:
     slug: "{{fields.slug}}"
     fields:
       - { name: "title", label: "Title" }
-      - { name: "slug", label: "Slug", widget: "string", hint: "Custom URL slug (leave empty to auto-generate)" }
-      - { name: "date", label: "Date", widget: "datetime" }
+      - { name: "slug",  label: "Slug", widget: "string", hint: "Custom URL slug (leave empty to auto-generate)" }
+      - { name: "date",  label: "Date", widget: "datetime" }
       - { name: "excerpt", label: "Excerpt", widget: "string", required: false }
-      - { name: "body", label: "Body", widget: "markdown" }
+      - { name: "body",  label: "Body", widget: "markdown" }
 
   - name: "resources"
     label: "Resources"
@@ -50,7 +52,7 @@ collections:
     slug: "{{fields.slug}}"
     fields:
       - { name: "title", label: "Title" }
-      - { name: "slug", label: "Slug", widget: "string", hint: "Custom URL slug (leave empty to auto-generate)" }
-      - { name: "date", label: "Date", widget: "datetime" }
+      - { name: "slug",  label: "Slug", widget: "string", hint: "Custom URL slug (leave empty to auto-generate)" }
+      - { name: "date",  label: "Date", widget: "datetime" }
       - { name: "excerpt", label: "Excerpt", widget: "string", required: false }
-      - { name: "body", label: "Body", widget: "markdown" }
+      - { name: "body",  label: "Body", widget: "markdown" }
