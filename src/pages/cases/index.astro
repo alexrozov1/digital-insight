@@ -1,18 +1,28 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import { getCollection } from 'astro:content';
-const items = await getCollection('cases');
+import Layout from "../../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+const items = (await getCollection("cases"))
+  .sort((a,b) => new Date(b.data.date) - new Date(a.data.date));
 ---
-<BaseLayout title="Digital Insight — Cases">
-  <section class="container mx-auto px-4 md:px-6 lg:px-8 py-12">
-    <h1 class="text-3xl md:text-4xl font-bold tracking-tight">Work cases</h1>
-    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
-      {items.map((p) => (
-        <a href={`/cases/${p.slug}/`} class="rounded-2xl border border-zinc-200 dark:border-zinc-800 p-5 block hover:shadow">
-          <h3 class="font-semibold leading-snug">{p.data.title}</h3>
-          <p class="text-sm text-zinc-600 dark:text-zinc-300 mt-2">{p.data.excerpt}</p>
-        </a>
-      ))}
-    </div>
+<Layout title="Cases">
+  <section class="prose dark:prose-invert max-w-3xl mx-auto">
+    <h1>Cases</h1>
+    {items.length === 0 ? (
+      <p>No cases yet.</p>
+    ) : (
+      <ul>
+        {items.map(({ slug, data }) => (
+          <li>
+            <a href={`/cases/${slug}/`} class="no-underline hover:underline">
+              {data.title}
+            </a>
+            <small class="block opacity-70">
+              {new Date(data.date).toLocaleDateString()}
+            </small>
+            {data.excerpt && <p>{data.excerpt}</p>}
+          </li>
+        ))}
+      </ul>
+    )}
   </section>
-</BaseLayout>
+</Layout>
