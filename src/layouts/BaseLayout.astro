@@ -1,7 +1,22 @@
 ---
+import site from "../config/site.json";
+const gtmId = site.gtmId?.trim();
+const gaId = site.gaId?.trim();
 const { title = "Digital Insight", description = "" } = Astro.props;
 ---
+import site from "../config/site.json";
+const gtmId = site.gtmId?.trim();
+const gaId = site.gaId?.trim();
 <!doctype html>
+  {gtmId && (
+    <>
+      <!-- Google Tag Manager (noscript) -->
+      <noscript><iframe src={`https://www.googletagmanager.com/ns.html?id=${gtmId}`}
+      height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+      <!-- End Google Tag Manager (noscript) -->
+    </>
+  )}
+
 <html lang="en" class="h-full">
   <head>
     <meta charset="utf-8" />
@@ -20,8 +35,20 @@ const { title = "Digital Insight", description = "" } = Astro.props;
       }catch(e){}
     })();
     </script>
-  </head>
-  <body class="min-h-screen bg-white text-zinc-900 dark:bg-zinc-900 dark:text-zinc-100">
+    {gtmId && (
+    <>
+      <!-- Google Tag Manager -->
+      <script is:inline>{`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id=' + i + dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','${gtmId}');`}</script>
+      <!-- End Google Tag Manager -->
+    </>
+  )}
+</head>
+  <body
+ class="min-h-screen bg-white text-zinc-900 dark:bg-zinc-900 dark:text-zinc-100">
     <header class="border-b border-zinc-200 dark:border-zinc-800">
       <nav class="container mx-auto px-4 md:px-6 lg:px-8 h-14 flex items-center gap-6 text-sm">
         <a href="/" class="font-semibold">Digital Insight</a>
