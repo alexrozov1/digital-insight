@@ -21,3 +21,10 @@
     </script>
   </body>
 </html>
+<script>
+  window.addEventListener('message', (e) => {
+    if (typeof e.data === 'string' && e.data.startsWith('authorization:github:')) {
+      console.log('Admin received auth message:', e.data.slice(22));
+    }
+  });
+</script>
