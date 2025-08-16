@@ -2,16 +2,15 @@ export default {
   async fetch(request, env) {
     const url = new URL(request.url);
 
-    // /api/auth → redirect to GitHub OAuth
+    // ---- 1) Start OAuth
     if (url.pathname === "/api/auth") {
       const CLIENT_ID = env.GITHUB_CLIENT_ID;
       const REDIRECT = env.OAUTH_REDIRECT_URL || "https://digital-insight.pages.dev/api/callback";
       if (!CLIENT_ID) return new Response("Missing GITHUB_CLIENT_ID", { status: 500 });
 
-      // CSRF state cookie
       const arr = new Uint8Array(16); crypto.getRandomValues(arr);
       const state = Array.from(arr).map(b => b.toString(16).padStart(2,"0")).join("");
-      const scopes = "public_repo,user:email"; // use "repo,user:email" if repo is private
+      const scopes = "public_repo,user:email"; // use "repo,user:email" for private repos
 
       const gh = new URL("https://github.com/login/oauth/authorize");
       gh.searchParams.set("client_id", CLIENT_ID);
@@ -25,7 +24,7 @@ export default {
       return new Response(null, { status: 302, headers });
     }
 
-    // /api/callback → exchange code and notify Decap
+    // ---- 2) Complete OAuth and deliver token to the admin page
     if (url.pathname === "/api/callback") {
       const code = url.searchParams.get("code");
       const state = url.searchParams.get("state");
@@ -48,16 +47,20 @@ export default {
         return new Response("Failed to get access token: " + JSON.stringify(tokenData), { status: 500 });
       }
 
-      const payload = "authorization:github:" + JSON.stringify({ token: tokenData.access_token, provider: "github" });
+      // Decap listens for: "authorization:github:<json>"
+      const payload = { token: tokenData.access_token, provider: "github" };
+      const msg = "authorization:github:" + JSON.stringify(payload);
+
+      const targetOrigin = "https://digital-insight.pages.dev"; // post to exact origin
 
       const html = '<!doctype html><meta charset="utf-8"><title>Login Complete</title>'
         + '<style>body{font:14px/1.5 system-ui;margin:2rem;color:#111}</style>'
         + '<p>✅ GitHub authentication succeeded.</p>'
         + '<p>You can close this window. If it doesn’t close automatically, switch back to the Admin tab.</p>'
         + '<script>'
-        + 'function send(){ try{ if(window.opener){ window.opener.postMessage(' + JSON.stringify(payload) + ', "*"); console.log("Auth message posted"); } }catch(e){ console.error(e); } }'
-        + 'send(); setTimeout(send, 600); setTimeout(send, 1500);'
-        + 'setTimeout(function(){ try{ window.close(); }catch(_){ } }, 1800);'
+        + 'function send(){try{if(window.opener){window.opener.postMessage(' + JSON.stringify(msg) + ', ' + JSON.stringify(targetOrigin) + ');console.log("Auth message posted to ' + targetOrigin + '");}}catch(e){console.error(e);}}'
+        + 'send(); setTimeout(send, 400); setTimeout(send, 900); setTimeout(send, 1500);'
+        + 'setTimeout(function(){try{window.close();}catch(_){ }}, 1800);'
         + '</script>';
 
       const headers = new Headers();
@@ -66,7 +69,7 @@ export default {
       return new Response(html, { headers });
     }
 
-    // Fallback — serve static assets
+    // ---- 3) Static fallback
     return env.ASSETS.fetch(request);
   }
 };
