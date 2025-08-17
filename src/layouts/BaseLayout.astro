@@ -19,13 +19,31 @@ const gaId  = (site?.gaId  ?? "").toString().trim();
       </>
     )}
   </head>
-  <body class="min-h-screen bg-white text-zinc-900 dark:bg-zinc-900 dark:text-zinc-100">
-  {gtmId && (<noscript><iframe src={"https://www.googletagmanager.com/ns.html?id=" + gtmId} height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>)}
+  <body class="min-h-screen bg-white text-zinc-900 dark:bg-zinc-900 dark:text-zinc-100" data-gtm={gtmId}>
+<!-- GTM runtime injector -->
+  <script is:inline>
+  (function(){
+    try{
+      var id = (document.body && document.body.dataset && document.body.dataset.gtm) || "";
+      if(!id) return;
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({'gtm.start': Date.now(), event: 'gtm.js'});
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtm.js?id=' + id;
+      (document.head || document.documentElement).appendChild(s);
+    }catch(e){}
+  })();
+  </script>
+  <!-- GTM noscript -->
+  {gtmId && (<noscript><iframe src={"https://www.googletagmanager.com/ns.html?id=" + gtmId}
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>)}
+
+  {gtmId && ()}
 
     {__GTM && (
       <>
-        <noscript><iframe src={'https://www.googletagmanager.com/ns.html?id=' + __GTM}
-        height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+        
       </>
     )}
 
