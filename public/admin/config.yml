@@ -4,66 +4,137 @@ backend:
   branch: main
   base_url: https://digital-insight.pages.dev
   auth_endpoint: /api/auth
-
-media_folder: "public/uploads"
-public_folder: "/uploads"
-
+media_folder: public/uploads
+public_folder: /uploads
 collections:
-  - name: "news"
-    label: "News"
-    folder: "src/content/news"
-    create: true
-    slug: "{{fields.slug}}"
+- name: news
+  label: News
+  folder: src/content/news
+  create: true
+  slug: '{{fields.slug}}'
+  fields:
+  - name: title
+    label: Title
+  - name: slug
+    label: Slug
+    widget: string
+    hint: Custom URL slug (leave empty to auto-generate)
+  - name: date
+    label: Date
+    widget: datetime
+  - name: excerpt
+    label: Excerpt
+    widget: string
+    required: false
+  - name: body
+    label: Body
+    widget: markdown
+  - label: Description
+    name: description
+    widget: text
+    required: false
+  - label: Publish Date
+    name: publishDate
+    widget: datetime
+  - label: Tags
+    name: tags
+    widget: list
+    required: false
+  - label: Sources
+    name: sources
+    widget: list
+    summary: "{{fields.title}} \u2014 {{fields.url}}"
     fields:
-      - { name: "title",  label: "Title" }
-      - { name: "slug",   label: "Slug", widget: "string", hint: "Custom URL slug (leave empty to auto-generate)" }
-      - { name: "date",   label: "Date", widget: "datetime" }
-      - { name: "excerpt",label: "Excerpt", widget: "string", required: false }
-      - { name: "body",   label: "Body", widget: "markdown" }
-
-  - name: "cases"
-    label: "Cases"
-    folder: "src/content/cases"
-    create: true
-    slug: "{{fields.slug}}"
+    - label: Title
+      name: title
+      widget: string
+      required: false
+    - label: URL
+      name: url
+      widget: string
+    required: false
+- name: cases
+  label: Cases
+  folder: src/content/cases
+  create: true
+  slug: '{{fields.slug}}'
+  fields:
+  - name: title
+    label: Title
+  - name: slug
+    label: Slug
+    widget: string
+    hint: Custom URL slug (leave empty to auto-generate)
+  - name: date
+    label: Date
+    widget: datetime
+  - name: excerpt
+    label: Excerpt
+    widget: string
+    required: false
+  - name: body
+    label: Body
+    widget: markdown
+- name: guides
+  label: Guides
+  folder: src/content/guides
+  create: true
+  slug: '{{fields.slug}}'
+  fields:
+  - name: title
+    label: Title
+  - name: slug
+    label: Slug
+    widget: string
+    hint: Custom URL slug (leave empty to auto-generate)
+  - name: date
+    label: Date
+    widget: datetime
+  - name: excerpt
+    label: Excerpt
+    widget: string
+    required: false
+  - name: body
+    label: Body
+    widget: markdown
+- name: resources
+  label: Resources
+  folder: src/content/resources
+  create: true
+  slug: '{{fields.slug}}'
+  fields:
+  - name: title
+    label: Title
+  - name: slug
+    label: Slug
+    widget: string
+    hint: Custom URL slug (leave empty to auto-generate)
+  - name: date
+    label: Date
+    widget: datetime
+  - name: excerpt
+    label: Excerpt
+    widget: string
+    required: false
+  - name: body
+    label: Body
+    widget: markdown
+- name: settings
+  label: Settings
+  editor:
+    preview: false
+  files:
+  - label: Site
+    name: site
+    file: src/config/site.json
     fields:
-      - { name: "title",  label: "Title" }
-      - { name: "slug",   label: "Slug", widget: "string", hint: "Custom URL slug (leave empty to auto-generate)" }
-      - { name: "date",   label: "Date", widget: "datetime" }
-      - { name: "excerpt",label: "Excerpt", widget: "string", required: false }
-      - { name: "body",   label: "Body", widget: "markdown" }
-
-  - name: "guides"
-    label: "Guides"
-    folder: "src/content/guides"
-    create: true
-    slug: "{{fields.slug}}"
-    fields:
-      - { name: "title",  label: "Title" }
-      - { name: "slug",   label: "Slug", widget: "string", hint: "Custom URL slug (leave empty to auto-generate)" }
-      - { name: "date",   label: "Date", widget: "datetime" }
-      - { name: "excerpt",label: "Excerpt", widget: "string", required: false }
-      - { name: "body",   label: "Body", widget: "markdown" }
-
-  - name: "resources"
-    label: "Resources"
-    folder: "src/content/resources"
-    create: true
-    slug: "{{fields.slug}}"
-    fields:
-      - { name: "title",  label: "Title" }
-      - { name: "slug",   label: "Slug", widget: "string", hint: "Custom URL slug (leave empty to auto-generate)" }
-      - { name: "date",   label: "Date", widget: "datetime" }
-      - { name: "excerpt",label: "Excerpt", widget: "string", required: false }
-      - { name: "body",   label: "Body", widget: "markdown" }
-  - name: settings
-    label: Settings
-    editor:
-      preview: false
-    files:
-      - label: Site
-        name: site
-        file: src/config/site.json
-        fields:
-          - { label: Google Tag Manager ID, name: gtmId, widget: string, hint: "Format: GTM-XXXXXXX", required: false }
-          - { label: GA4 Measurement ID, name: gaId, widget: string, hint: "Format: G-XXXXXXX (only if you use GA without GTM)", required: false }
+    - label: Google Tag Manager ID
+      name: gtmId
+      widget: string
+      hint: 'Format: GTM-XXXXXXX'
+      required: false
+    - label: GA4 Measurement ID
+      name: gaId
+      widget: string
+      hint: 'Format: G-XXXXXXX (only if you use GA without GTM)'
+      required: false

@@ -13,7 +13,9 @@ const baseFields = {
   seo: z.any().optional(),
 };
 
-const news = defineCollection({ type: "content", schema: z.object(baseFields) });
+const news = const SourceLink = z.object({ title: z.string().optional(), url: z.string().url() });
+
+defineCollection({ type: "content", schema: z.object(baseFields) });
 const cases = defineCollection({ type: "content", schema: z.object(baseFields) });
 const guides = defineCollection({ type: "content", schema: z.object(baseFields) });
 const resources = defineCollection({ type: "content", schema: z.object(baseFields) });

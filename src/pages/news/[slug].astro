@@ -1,4 +1,10 @@
 ---
+const entry = Astro.props.entry ?? undefined;
+const data = entry ? entry.data : Astro.props.data ?? Astro.props;
+const rawSources = data?.sources;
+const sources = Array.isArray(rawSources)
+  ? rawSources.map((x) => (typeof x === 'string' ? {url:x, title:undefined} : x)).filter(x => x && x.url)
+  : (typeof rawSources === 'string' && rawSources.trim() ? [{ url: rawSources.trim() }] : []);
 import PostLayout from "../../layouts/PostLayout.astro";
 import { getCollection } from "astro:content";
 
