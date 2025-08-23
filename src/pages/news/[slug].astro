@@ -1,15 +1,26 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import { getEntryBySlug } from "astro:content";
+import { getCollection } from "astro:content";
 
-const { slug } = Astro.params;
-const entry = await getEntryBySlug("news", slug);
-if (!entry) throw new Error(`News article not found for slug: ${slug}`);
+// Build-time: enumerate all news slugs and pass the entry as a prop
+export async function getStaticPaths() {
+  const posts = await getCollection("news");
+  return posts.map((entry) => ({
+    params: { slug: entry.slug },
+    props: { entry },
+  }));
+}
 
-const { Content } = await entry.render();
+// Runtime for each page (receives "entry" from getStaticPaths)
+const { entry } = Astro.props;
 const data = entry.data;
+const { Content } = await entry.render();
 
-// normalize sources to [{ title?, url }]
+const pageTitle = data?.title ?? "News";
+const pageDesc  = data?.description ?? "";
+const dt        = data?.publishDate || data?.date || null;
+
+// Normalize sources -> [{ title?, url }]
 const rawSources = data?.sources;
 const sources = Array.isArray(rawSources)
   ? rawSources
@@ -18,10 +29,6 @@ const sources = Array.isArray(rawSources)
   : (typeof rawSources === "string" && rawSources.trim()
       ? [{ url: rawSources.trim(), title: undefined }]
       : []);
-
-const pageTitle = data?.title ?? "News";
-const pageDesc  = data?.description ?? "";
-const dt = data?.publishDate || data?.date || null;
 ---
 
 <BaseLayout title={pageTitle} description={pageDesc}>
@@ -29,7 +36,7 @@ const dt = data?.publishDate || data?.date || null;
     <h1 class="!mb-2">{pageTitle}</h1>
     {dt && (
       <p class="text-sm text-zinc-500 dark:text-zinc-400 !mt-0">
-        {new Date(dt).toLocaleDateString(undefined, { year:"numeric", month:"short", day:"2-digit" })}
+        {new Date(dt).toLocaleDateString(undefined, { year: "numeric", month: "short", day: "2-digit" })}
       </p>
     )}
 
