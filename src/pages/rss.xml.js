@@ -3,16 +3,25 @@ import { getCollection } from "astro:content";
 
 export async function GET(context) {
   const news = await getCollection("news");
+  const guides = await getCollection("guides");
+  const cases = await getCollection("cases");
+
+  const items = [...news, ...guides, ...cases]
+    .map((e) => {
+      const d = e.data || {};
+      const title = d.title || (e.slug && e.slug.replace(/[-_]/g, " "));
+      const desc = d.description || d.excerpt || "";
+      const rawDate = d.publishDate || d.date || null;
+      const pubDate = rawDate ? new Date(rawDate) : undefined;
+      const link = `${context.site}${e.collection}/${e.slug}/`;
+      return { title, description: desc, pubDate, link };
+    })
+    .filter((i) => i.title || i.description);
 
   return rss({
-    title: "Digital Insight – News",
-    description: "Latest news and insights on analytics, media buying, and digital tools.",
+    title: "Digital Insight",
+    description: "News, cases, and guides",
     site: context.site,
-    items: news.map((post) => ({
-      title: post.data.title,
-      description: post.data.excerpt || post.data.title,
-      pubDate: new Date(post.data.date || post.data.publishDate || Date.now()),
-      link: `/news/${post.slug}/`,
-    })),
+    items,
   });
 }

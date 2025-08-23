@@ -3,18 +3,13 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import { getEntryBySlug } from "astro:content";
 
 const { slug } = Astro.params;
-
-// Load the news entry by slug
 const entry = await getEntryBySlug("news", slug);
-if (!entry) {
-  throw new Error(`News article not found for slug: ${slug}`);
-}
+if (!entry) throw new Error(`News article not found for slug: ${slug}`);
 
-// Render markdown content
-const { Content, headings } = await entry.render();
+const { Content } = await entry.render();
 const data = entry.data;
 
-// Normalize sources (accept array of {title,url}, array of strings, or single string)
+// normalize sources to [{ title?, url }]
 const rawSources = data?.sources;
 const sources = Array.isArray(rawSources)
   ? rawSources
@@ -24,18 +19,17 @@ const sources = Array.isArray(rawSources)
       ? [{ url: rawSources.trim(), title: undefined }]
       : []);
 
-// Title/description fallbacks
 const pageTitle = data?.title ?? "News";
 const pageDesc  = data?.description ?? "";
+const dt = data?.publishDate || data?.date || null;
 ---
 
 <BaseLayout title={pageTitle} description={pageDesc}>
   <section class="container mx-auto px-4 md:px-6 lg:px-8 py-10 prose prose-zinc dark:prose-invert max-w-3xl">
     <h1 class="!mb-2">{pageTitle}</h1>
-
-    {data?.publishDate && (
+    {dt && (
       <p class="text-sm text-zinc-500 dark:text-zinc-400 !mt-0">
-        {new Date(data.publishDate).toLocaleDateString(undefined, { year: "numeric", month: "short", day: "2-digit" })}
+        {new Date(dt).toLocaleDateString(undefined, { year:"numeric", month:"short", day:"2-digit" })}
       </p>
     )}
 
@@ -43,7 +37,7 @@ const pageDesc  = data?.description ?? "";
       <Content />
     </div>
 
-    {sources && sources.length > 0 && (
+    {sources.length > 0 && (
       <section class="mt-10 border-t border-zinc-200 dark:border-zinc-800 pt-6">
         <h2 class="text-base font-semibold tracking-tight mb-3">Sources</h2>
         <ul class="space-y-2">
